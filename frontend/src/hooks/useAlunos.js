@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 
 //  URL da base da API onde os dados dos alunos estão registrados
-const BASE_URL = 'http://localhost:3000/registros'
+// Ajustado para o caminho do backend do grupo combinado
+const BASE_URL = 'http://localhost:3000/alunos/tabelaDeAlunos'
 
 export function useAlunos() {
     //estados: dados, carregando, erro
     const [registros, setRegistros] = useState([]); // Armazena a lista de alunos (registros) vindos do banco de dados
-    const [carregando, setCarregando] = useState(false); // Indica se o sistema está esperando uma resposta dI
+    const [carregando, setCarregando] = useState(false); // Indica se o sistema está esperando uma resposta da API
     const [erro, setErro] = useState(''); // Armazena mensagens de erro caso alguma requisição falhe
 
     //funçoes 
@@ -80,6 +81,7 @@ export function useAlunos() {
         
     }
 
-    return { registros, carregando, erro, buscarAluno, criar, atualizar, deletar} // Tudo que for retornado aqui poderá ser usado pelos componentes que importarem esse hook
+    // Exportamos as funções para serem usadas nas páginas
+    return { registros, carregando, erro, buscarAluno, criar, atualizar, deletar: deletarAluno} 
 
 }
