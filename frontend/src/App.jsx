@@ -13,7 +13,7 @@ function NavBar() {
     <nav className="navbar">
       <div className="nav-brand">
         <span className="nav-logo">🎓</span>
-        <span className="nav-title">CajuHub — Sistema de Alunos</span>
+        <span className="nav-title">ZanixCold -Stalker de Alunos</span>
       </div>
 
       <div className="nav-links">
@@ -49,7 +49,7 @@ function App() {
         </main>
 
         <footer className="footer">
-          <p>CajuHub © 2025 — JovemTech </p>
+          <p>ZanixCold © 2025 — JovemTech </p>
         </footer>
       </div>
     </BrowserRouter>

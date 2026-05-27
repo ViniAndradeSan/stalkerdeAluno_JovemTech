@@ -38,11 +38,14 @@ export default function Gestao() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validarFormulario()) return;
-   
-    const emailJaExiste = registros.some(aluno => aluno.email === form.email);
-
-    if (!editandoId && emailJaExiste) {
-        setErroLocal('Este e-mail já está cadastrado para outro aluno!');
+    // Verifica se já existe um aluno com o exato mesmo Nome e Email (Duplicidade Dupla)
+    const alunoDuplicado = registros.find(aluno => 
+        aluno.nome.toLowerCase() === form.nome.toLowerCase() && 
+        aluno.email.toLowerCase() === form.email.toLowerCase()
+    );
+    // Se encontramos alguém com esses mesmos dados e não é o aluno que estamos editando
+    if (alunoDuplicado && alunoDuplicado.id !== editandoId) {
+        setErroLocal('Já existe um registro idêntico (Nome e E-mail) para este aluno.');
         return;
     }
 
