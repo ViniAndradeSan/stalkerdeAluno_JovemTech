@@ -195,7 +195,7 @@ body {
   }
 }
 
-/* ===== EMPTY STATE ===== */
+/* ===== Tela vazia ===== */
 .empty-state {
   text-align: center;
   padding: 3rem 1rem;
@@ -228,7 +228,7 @@ body {
   }
 }
 
-/* ===== FORM CARD ===== */
+/* ===== Card de formulário ===== */
 .form-card {
   background: var(--cor-superficie);
   border: 1px solid var(--cor-borda);
@@ -290,7 +290,7 @@ body {
   margin-top: 0.5rem;
 }
 
-/* ===== BUTTONS ===== */
+/* ===== Botões vei ===== */
 .btn {
   padding: 0.65rem 1.4rem;
   border: none;
