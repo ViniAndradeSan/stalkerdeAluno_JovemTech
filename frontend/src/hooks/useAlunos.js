@@ -24,7 +24,7 @@ export function useAlunos() {
         }
         
         useEffect(() => { // Executa a função 'buscar()' automaticamente assim que a tela/componente carrega pela primeira vez
-            buscar()
+            buscarAluno()
         }, [])
 
         const criar = async (dados) => { //função criar, cadastra um novo aluno no banco de dados
@@ -38,7 +38,7 @@ export function useAlunos() {
                     const err = await res.json()
                     throw new Error(err.erro) // dispara um erro com a mensagem que veio do servidor
                 }
-                await buscar();
+                await buscarAluno();
             } catch (e) {  // salva o erro no estado para o usuário ver
                 setErro(e.message)
                 throw e  // repassa o erro adiante para que o componente da tela possa tratá-lo se necessário
@@ -72,7 +72,7 @@ export function useAlunos() {
                 const err = await res.json();
                 throw new Error(err.erro || 'Erro ao deletar registro.')
             }
-            await buscar() // recarrega a lista de alunos para sumir com o aluno deletado da tela
+            await buscarAluno() // recarrega a lista de alunos para sumir com o aluno deletado da tela
         } catch (e) {
             setErro(e.message);
             throw e; //lança o erro para o componente tratar visualmente 
@@ -80,6 +80,6 @@ export function useAlunos() {
         
     }
 
-    return { registros, carregando, erro, buscar, criar, atualizar, deletar} // Tudo que for retornado aqui poderá ser usado pelos componentes que importarem esse hook
+    return { registros, carregando, erro, buscarAluno, criar, atualizar, deletar} // Tudo que for retornado aqui poderá ser usado pelos componentes que importarem esse hook
 
 }
