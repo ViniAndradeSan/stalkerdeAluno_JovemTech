@@ -2,12 +2,17 @@
   "name": "stalkerdealuno-backend",
   "version": "1.0.0",
   "main": "server.js",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
-    "start": "node server.js"
+    "dev": "node index.js"
   },
   "dependencies": {
-    "express": "^4.18.2",
-    "cors": "^2.8.5"
-  }
+    "cors": "^2.8.5",
+    "express": "^4.22.2",
+    "react-router-dom": "^7.15.1"
+  },
+  "description": "",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
