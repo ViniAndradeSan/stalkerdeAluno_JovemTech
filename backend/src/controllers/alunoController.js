@@ -15,6 +15,42 @@ function listarTodosAlunos(req, res) {
 }
 
 
+
+// ─────────────────────────────────────────
+// Função básica que valida se é um e-mail/gmail válido usando split e if, colocada aqui
+// para não precisa repetir pelo codigo
+// ─────────────────────────────────────────
+
+function validarFormatoEmailBasico(email) {
+  // 1. Verifica se tem o caractere "@"
+  if (!email.includes('@')) return false; // O método includes() determina se um array contém um determinado elemento, retornando true ou false apropriadamente.
+
+  // 2. Divide o e-mail no "@" para separar o usuário do domínio
+  const partes = email.split('@'); 
+
+  // O split deve gerar exatamente duas partes: [usuario, dominio]
+  if (partes.length !== 2) return false;
+
+  const usuario = partes[0];
+  const dominio = partes[1];
+
+  // 3. Garante que a parte antes do "@" e depois do "@" não estão vazias
+  if (usuario.length === 0 || dominio.length === 0) return false;
+
+  // 4. Garante que o domínio tem pelo menos um ponto "."
+  if (!dominio.includes('.')) return false;
+
+  // 5. Divide o domínio por "." para garantir que há texto após o ponto
+  const partesDoDominio = dominio.split('.');
+  const ultimoPedaco = partesDoDominio[partesDoDominio.length - 1];
+
+  if (ultimoPedaco.length < 2) return false; // Ex: garante que não termine com ".c" em vez de ".com"
+
+  return true; // Se passou em tudo, o e-mail é válido
+}
+
+
+
 // ─────────────────────────────────────────
 // POST /alunos — Cadastra um novo aluno
 // ─────────────────────────────────────────
@@ -39,15 +75,33 @@ function criarNovoAluno(req, res) {
       erro: `Nome não pode ter mais de ${LIMITE_CARACTERES_NOME} caracteres.`,
     });
   }
-
-  // ── Validação 3 ── Conflito: aluno com mesmo nome já existe (HTTP 409)
-  // 409 Conflict = o dado que você quer criar já existe no sistema
-  const alunoJaCadastrado = BancoDeDados.buscarAlunoPorNome(nome); // (função do src/data/alunos.js)
-  if (alunoJaCadastrado) {
-    return res.status(409).json({
-      erro: 'Já existe um aluno cadastrado com esse nome.',
+  
+  // ── Validação pré 3 ── Validação de Formato do E-mail ──
+  if (!validarFormatoEmailBasico(email)) {
+    return res.status(400).json({
+      erro: 'O formato do e-mail informado é inválido.',
     });
   }
+
+
+   // ── Validação 3 ── Conflito: e-mail já cadastrado (HTTP 409)
+  // 409 Conflict = o dado que você quer criar já existe no sistema
+    const listaDeAlunos = BancoDeDados.getAlunos();
+    const emailJaExiste = listaDeAlunos.some(aluno => aluno.email.toLowerCase() === email.toLowerCase());
+    if (emailJaExiste) {
+      return res.status(409).json({
+        erro: 'Já existe um aluno cadastrado com esse e-mail.',
+      });
+    }
+    const emailEmUsoPorOutro = listaDeAlunos.some(
+    aluno => aluno.email.toLowerCase() === email.toLowerCase() && aluno.id !== idDoAluno
+    ); // Apenas para deixar evidente e organizado, estou deixando explicito aqui
+    if (emailEmUsoPorOutro) {
+      return res.status(409).json({
+        erro: 'Este e-mail já está sendo usado por outro aluno.',
+      });
+    }
+
 
   // ── Validação 4 ── Regra de negócio: nota fora do intervalo permitido (HTTP 422)
   // 422 Unprocessable = os dados chegaram certos, mas a regra do sistema não permite
@@ -95,6 +149,14 @@ function atualizarAlunoPorId(req, res) {
       erro: 'Nome, email e curso são obrigatórios.',
     });
   }
+
+  // ── Validação 3 ──  Validação de Formato do E-mail na Edição ──
+  if (!validarFormatoEmailBasico(email)) {
+    return res.status(400).json({
+      erro: 'O formato do e-mail informado é inválido.',
+    });
+  }
+
 
   // ── Validação 4 (repetida) ── Nota fora do intervalo na edição também (HTTP 422)
   const notaFoiInformada = nota !== undefined && nota !== null && nota !== '';

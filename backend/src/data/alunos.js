@@ -37,19 +37,6 @@ export function buscarAlunoPorId(idProcurado) {
 
 
 // ─────────────────────────────────────────
-// buscarAlunoPorNome — Busca um aluno pelo nome (sem distinção de maiúsculas)
-// Retorna o objeto do aluno, ou undefined se não existir
-// Usada em: criarNovoAluno() do controller para checar duplicatas
-// ─────────────────────────────────────────
-export function buscarAlunoPorNome(nomeProcurado) {
-  const alunoEncontrado = tabelaDeAlunos.find(
-    (aluno) => aluno.nome.toLowerCase() === nomeProcurado.toLowerCase()
-  ); // filtro usado find, para comparar os nomes sem considerar maiúsculas ou minúsculas, usando toLowerCase() para converter ambos os lados da comparação para letras minúsculas.
-  return alunoEncontrado;
-}
-
-
-// ─────────────────────────────────────────
 // create — Adiciona um novo aluno na tabela
 // Gera o ID automaticamente e retorna o aluno completo (com ID)
 // Usada em: criarNovoAluno() do controller
