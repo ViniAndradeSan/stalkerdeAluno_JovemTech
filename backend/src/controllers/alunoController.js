@@ -40,14 +40,24 @@ function criarNovoAluno(req, res) {
     });
   }
 
-  // ── Validação 3 ── Conflito: aluno com mesmo nome já existe (HTTP 409)
+   // ── Validação 3 ── Conflito: e-mail já cadastrado (HTTP 409)
   // 409 Conflict = o dado que você quer criar já existe no sistema
-  const alunoJaCadastrado = BancoDeDados.buscarAlunoPorNome(nome); // (função do src/data/alunos.js)
-  if (alunoJaCadastrado) {
-    return res.status(409).json({
-      erro: 'Já existe um aluno cadastrado com esse nome.',
-    });
-  }
+    const listaDeAlunos = BancoDeDados.getAlunos();
+    const emailJaExiste = listaDeAlunos.some(aluno => aluno.email.toLowerCase() === email.toLowerCase());
+    if (emailJaExiste) {
+      return res.status(409).json({
+        erro: 'Já existe um aluno cadastrado com esse e-mail.',
+      });
+    }
+    const emailEmUsoPorOutro = listaDeAlunos.some(
+    aluno => aluno.email.toLowerCase() === email.toLowerCase() && aluno.id !== idDoAluno
+    ); // Apenas para deixar evidente e organizado, estou deixando explicito aqui
+    if (emailEmUsoPorOutro) {
+      return res.status(409).json({
+        erro: 'Este e-mail já está sendo usado por outro aluno.',
+      });
+    }
+
 
   // ── Validação 4 ── Regra de negócio: nota fora do intervalo permitido (HTTP 422)
   // 422 Unprocessable = os dados chegaram certos, mas a regra do sistema não permite
