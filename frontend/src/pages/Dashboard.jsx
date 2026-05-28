@@ -107,14 +107,6 @@ export default function Dashboard() {
                 <span className="dash-card-label">Melhor Aluno — Nota {Number(melhorAluno?.nota).toFixed(1)}</span>
               </div>
             </div>
-
-            <div className="dash-card card-idade">
-              <div className="dash-card-icon">🎂</div>
-              <div className="dash-card-info">
-                <span className="dash-card-value">{mediaIdade.toFixed(0)} anos</span>
-                <span className="dash-card-label">Média de Idade</span>
-              </div>
-            </div>
           </div>
 
           {/* Seção intermediária */}

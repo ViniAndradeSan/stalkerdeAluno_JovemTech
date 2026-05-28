@@ -8,7 +8,6 @@ export default function Gestao() {
   // Meu estado do formulário com todos os campos necessários
   const [form, setForm] = useState({ 
     nome: '', 
-    idade: '', 
     nota: '',
     email: '',
     curso: ''
@@ -27,7 +26,6 @@ export default function Gestao() {
     if (!form.nome.trim()) { setErroLocal('Nome é obrigatório.'); return false; }
     if (!form.email.includes('@')) { setErroLocal('E-mail inválido.'); return false; }
     if (!form.curso.trim()) { setErroLocal('Diga qual o curso.'); return false; }
-    if (!form.idade || form.idade < 1) { setErroLocal('Idade inválida.'); return false; }
     if (form.nota === '' || form.nota < 0 || form.nota > 10) { setErroLocal('Nota deve ser entre 0 e 10.'); return false; }
     
     setErroLocal('');
@@ -51,7 +49,6 @@ export default function Gestao() {
 
     const dadosParaEnviar = {
       nome: form.nome,
-      idade: Number(form.idade),
       nota: Number(form.nota),
       email: form.email,
       curso: form.curso
@@ -73,7 +70,6 @@ export default function Gestao() {
   const handleEditar = (aluno) => {
     setForm({ 
       nome: aluno.nome, 
-      idade: String(aluno.idade), 
       nota: String(aluno.nota),
       email: aluno.email || '',
       curso: aluno.curso || ''
@@ -83,7 +79,7 @@ export default function Gestao() {
 
   // Cancela a edição e limpa campos
   const handleCancelar = () => {
-    setForm({ nome: '', idade: '', nota: '', email: '', curso: '' });
+    setForm({ nome: '', nota: '', email: '', curso: '' });
     setEditandoId(null);
     setErroLocal('');
   };
@@ -129,10 +125,7 @@ export default function Gestao() {
             </div>
 
             <div className="form-row">
-              <div className="form-group">
-                <label>Idade</label>
-                <input type="number" name="idade" value={form.idade} onChange={handleChange} />
-              </div>
+              
               <div className="form-group">
                 <label>Nota Final</label>
                 <input type="number" name="nota" step="0.1" value={form.nota} onChange={handleChange} />
@@ -168,7 +161,7 @@ export default function Gestao() {
                       <td>
                         <div className="td-nome">{aluno.nome}</div>
                         <div style={{fontSize: '0.75rem', color: '#94a3b8'}}>
-                          {aluno.idade} anos • {aluno.email}
+                           {aluno.email}
                         </div>
                       </td>
                       <td>{aluno.curso}</td>
