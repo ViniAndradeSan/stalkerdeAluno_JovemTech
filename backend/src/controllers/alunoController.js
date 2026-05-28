@@ -93,14 +93,6 @@ function criarNovoAluno(req, res) {
         erro: 'Já existe um aluno cadastrado com esse e-mail.',
       });
     }
-    const emailEmUsoPorOutro = listaDeAlunos.some(
-    aluno => aluno.email.toLowerCase() === email.toLowerCase() && aluno.id !== idDoAluno
-    ); // Apenas para deixar evidente e organizado, estou deixando explicito aqui
-    if (emailEmUsoPorOutro) {
-      return res.status(409).json({
-        erro: 'Este e-mail já está sendo usado por outro aluno.',
-      });
-    }
 
 
   // ── Validação 4 ── Regra de negócio: nota fora do intervalo permitido (HTTP 422)
@@ -157,6 +149,15 @@ function atualizarAlunoPorId(req, res) {
     });
   }
 
+  const listaDeAlunos = BancoDeDados.getAlunos();
+  const emailEmUsoPorOutro = listaDeAlunos.some(
+    aluno => aluno.email.toLowerCase() === email.toLowerCase() && aluno.id !== idDoAluno
+  );
+  if (emailEmUsoPorOutro) {
+    return res.status(409).json({
+      erro: 'Este e-mail já está sendo usado por outro aluno.',
+    });
+  }
 
   // ── Validação 4 (repetida) ── Nota fora do intervalo na edição também (HTTP 422)
   const notaFoiInformada = nota !== undefined && nota !== null && nota !== '';

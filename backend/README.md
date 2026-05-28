@@ -48,6 +48,8 @@ backend/
 
 Dentro da pasta `backend/`, execute:
 
+<!-- o "bash" é para deixar destacado no md, não é um comando -->
+
 ```bash
 npm install
 ```
