@@ -61,6 +61,7 @@ export function useAlunos() {
         await buscarAluno(); // Recarrega a lista de alunos para mostrar o dado atualizado na tela
         } catch(e) {
             setErro(e.message);
+            throw e;
         }
     };
 

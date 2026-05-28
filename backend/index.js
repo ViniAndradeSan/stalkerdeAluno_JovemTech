@@ -9,6 +9,7 @@ const servidor = express()
 //─────────────────────────────────────────────────────
 servidor.use(cors())
 servidor.use(express.json())
+//─────────────────────────────────────────────────────
 
 servidor.use('/alunos', alunoRouter);
 

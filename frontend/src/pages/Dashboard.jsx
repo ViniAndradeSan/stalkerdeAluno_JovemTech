@@ -22,11 +22,6 @@ export default function Dashboard() {
   const recuperacao = registros.filter((a) => Number(a.nota) >= 5 && Number(a.nota) < 7).length;
   const reprovados = registros.filter((a) => Number(a.nota) < 5).length;
 
-  const mediaIdade =
-    totalAlunos > 0
-      ? registros.reduce((acc, a) => acc + Number(a.idade), 0) / totalAlunos
-      : 0;
-
   const maiorNota = totalAlunos > 0 ? Math.max(...registros.map((a) => Number(a.nota))) : 0;
   const menorNota = totalAlunos > 0 ? Math.min(...registros.map((a) => Number(a.nota))) : 0;
 
